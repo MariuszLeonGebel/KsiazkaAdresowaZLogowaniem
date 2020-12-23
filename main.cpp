@@ -278,7 +278,7 @@ void dodajOsobe(vector<Adresat> &adresaci, vector<int> &id, int wolneID, int idZ
         cout << "Nie udalo sie otworzyc pliku i zapisac do niego danych." << endl;
         system("pause");
     }
-    cout << endl << "Osoba zostala dodana" << endl;
+    cout << endl << "Osoba: "<<temp.imie<<" "<<temp.nazwisko<<" zostala dodana!" << endl;
     system("pause");
 }
 
@@ -394,14 +394,15 @@ void usunEdytujWszyscy(vector<Adresat> &adresaci) {
     }
 }
 
-void UsunOsobe(vector<Adresat> &adresaci) {
+void usunOsobe(vector<Adresat> &adresaci, vector<int> &id) {
     int idOsobyDoUsuniecia=0;
     char znak;
 
     cout<<"Podaj ID osoby, ktora chcesz usunac: ";
     cin>>idOsobyDoUsuniecia;
     while(cin.good()==false) {
-        cin.clear(); cin.sync();
+        cin.clear();
+        cin.sync();
         cout<<"Podaj ID osoby, ktora chcesz usunac: ";
         cin>>idOsobyDoUsuniecia;
     }
@@ -421,9 +422,14 @@ void UsunOsobe(vector<Adresat> &adresaci) {
                 zapisPoUsunieciu(adresaci, idOsobyDoUsuniecia);
                 cout<<endl<<"Osoba zostala usunieta!"<<endl;
                 system("pause");
-                return;
             }
         }
+        for(int i=0; i<id.size(); i++) {
+            if(id[i]==idOsobyDoUsuniecia) {
+                id.erase(id.begin()+i);
+            }
+        }
+        return;
     } else {
         cout<<endl<<"Osoba NIE zostala usunieta!"<<endl;
         system("pause");
@@ -593,7 +599,7 @@ void poZalogowaniu(vector<Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownik
             wyswietlWszystkieOsoby(adresaci);
         } else if (wybor == '5') {
             usunEdytujWszyscy(adresaci);
-            if(adresaci.size()>0) UsunOsobe(adresaci);
+            if(adresaci.size()>0) usunOsobe(adresaci, id);
         } else if (wybor == '6') {
             int wyborOsoby, wyborOpcji;
             usunEdytujWszyscy(adresaci);
